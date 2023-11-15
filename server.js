@@ -1,7 +1,9 @@
 const express = require("express");
+const axios = require('axios');
+
 const app = express();
 
-// const request = require('request');
+const request = require('request');
 const fs = require('fs');
 
 // app.use(express.static("public"));
@@ -10,49 +12,37 @@ const fs = require('fs');
 // expressで用意されているテンプレートエンジン
 app.set("view engine", "ejs");
 
-app.get('/', (req, res) => {
+app.get('/', async (req, res) => {
+    try {
+        const apiResponse = await makeApiRequest();
 
-    // try {
-    //   const apiResponse = makeSyncApiRequest();
-  
-    //   console.log(apiResponse);
-  
-    //   res.render('index', { text: 'こんにちは' });
-    // } catch (error) {
-    //   console.error(error);
-    //   res.status(500).send('Internal Server Error');
-    // }
+        console.log(apiResponse);
 
-    res.render('index', { text: 'こんにちは' });
+        res.render('index', { text: 'こんにちは' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal Server Error');
+    }
+});
 
-    
-  });
-
-
-// 同期でAPIリクエストを行う関数
-function makeSyncApiRequest() {
-    const imagePath = '/views/source/ore.jpg';
-  
-    // 画像を同期的に読み込む
+async function makeApiRequest() {
+    const imagePath = path.join(__dirname, 'views', 'source', 'ore.jpg');
     const imageContent = fs.readFileSync(imagePath);
+    const API_KEY = 'wx9sjlg1796km3kfm';
 
-    const API_KEY = "wx9sjlg1796km3kfm";
-  
-    // 同期的にAPIリクエストを行う
-    const apiResponse = request.sync({
-      method: 'POST',
-      url: 'https://techhk.aoscdn.com/api/tasks/visual/segmentation',
-      headers: {
-        'X-API-KEY': API_KEY
-      },
-      formData: {
-        sync: '1',
-        image_file: imageContent,
-      }
+    // axiosを使用して非同期にAPIリクエストを行う
+    const response = await axios.post('https://techhk.aoscdn.com/api/tasks/visual/segmentation', imageContent, {
+        headers: {
+            'Content-Type': 'image/jpeg',
+            'X-API-KEY': API_KEY,
+        },
+        params: {
+            sync: '1',
+        },
     });
-  
-    return JSON.parse(apiResponse.body);
-  }
+
+    return response.data;
+}
 
 app.get("/source/menu.html", (req, res) => {
     res.sendFile(__dirname + "/views/source/menu.html");
