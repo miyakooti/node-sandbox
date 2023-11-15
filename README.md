@@ -7,8 +7,15 @@
 - ejs
 - picwish
 
+# ビルド?方法
+package.jsonの記載のコマンドで動作するようにした
+```
+npm run dev
+```
+
 # 課題点
 - ローカルの画像引っ張れない
+- nodemonなぜか通らない
 
 # 学び
 - API投げる方法
