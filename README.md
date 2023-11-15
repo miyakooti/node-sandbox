@@ -21,3 +21,7 @@ npm run dev
 - API投げる方法
 - node.jsのコンセプト
 - レンダリングの復習
+
+# 参考文献
+- [node install](https://qiita.com/kyosuke5_20/items/c5f68fc9d89b84c0df0)
+- [pickwish document](https://picwish.com/jp/background-removal-api-doc#/?id=asynchronous)
