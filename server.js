@@ -16,8 +16,8 @@ app.get("/", (req, res) => {
   res.render("index", { text: "こんにちは" });
 });
 
-app.get("source/menu.html", (req, res) => {
-    res.render("/source/menu.html");
+app.get("/source/menu.html", (req, res) => {
+    res.sendFile(__dirname + "/views/source/menu.html");
   });
 
 app.get("/source/top.html", (req, res) => {
