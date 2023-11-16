@@ -16,23 +16,23 @@ app.set("view engine", "ejs");
 app.get('/', async (req, res) => {
 
 
-    var request = require("request");
-    var fs = require("fs");
+    // var request = require("request");
+    // var fs = require("fs");
 
-    request({
-        method: "POST",
-        url: "https://techhk.aoscdn.com/api/tasks/visual/segmentation",
-        headers: {
-        "X-API-KEY": "wx9sjlg1796km3kfm"
-        },
-        formData: {
-        sync: "1",
-        image_file: fs.readFileSync("uploads/1700030491687.jpg"),
-        }
-    }, function (error, response) {
-        if (error) throw new Error(error);
-        console.log(response.body);
-    });
+    // request({
+    //     method: "POST",
+    //     url: "https://techhk.aoscdn.com/api/tasks/visual/segmentation",
+    //     headers: {
+    //     "X-API-KEY": "wx9sjlg1796km3kfm"
+    //     },
+    //     formData: {
+    //     sync: "1",
+    //     image_file: fs.readFileSync("uploads/1700030491687.jpg"),
+    //     }
+    // }, function (error, response) {
+    //     if (error) throw new Error(error);
+    //     console.log(response.body);
+    // });
 
     // try {
     //     const apiResponse = await makeApiRequest();
