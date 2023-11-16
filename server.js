@@ -6,6 +6,7 @@ const app = express();
 const request = require('request');
 const fs = require('fs');
 
+
 // app.use(express.static("public"));
 // app.use(logger);
 
@@ -13,17 +14,48 @@ const fs = require('fs');
 app.set("view engine", "ejs");
 
 app.get('/', async (req, res) => {
-    try {
-        const apiResponse = await makeApiRequest();
 
-        console.log(apiResponse);
 
-        res.render('index', { text: 'こんにちは' });
-    } catch (error) {
-        console.error(error);
-        res.status(500).send('Internal Server Error');
-    }
+    var request = require("request");
+    var fs = require("fs");
+
+    request({
+        method: "POST",
+        url: "https://techhk.aoscdn.com/api/tasks/visual/segmentation",
+        headers: {
+        "X-API-KEY": "wx9sjlg1796km3kfm"
+        },
+        formData: {
+        sync: "1",
+        image_file: fs.readFileSync("uploads/1700030491687.jpg"),
+        }
+    }, function (error, response) {
+        if (error) throw new Error(error);
+        console.log(response.body);
+    });
+
+    // try {
+    //     const apiResponse = await makeApiRequest();
+
+    //     console.log(apiResponse);
+
+    //     res.render('index', { text: 'こんにちは' });
+    // } catch (error) {
+    //     console.error(error);
+    //     res.status(500).send('Internal Server Error');
+    // }
+
+    
+
+    res.render('index', { text: 'こんにちは' });
+
 });
+
+app.get('/uploads/1700030491687.jpg', (req, res) => {
+    const imagePath = path.join(__dirname, 'uploads', '1700030491687.jpg');
+    res.sendFile(imagePath);
+    res.setHeader('Content-Type', 'image/jpeg');
+  });
 
 async function makeApiRequest() {
     const imagePath = path.join(__dirname, 'views', 'source', 'ore.jpg');
@@ -31,7 +63,7 @@ async function makeApiRequest() {
     const API_KEY = 'wx9sjlg1796km3kfm';
 
     // axiosを使用して非同期にAPIリクエストを行う
-    const response = await axios.post('https://techhk.aoscdn.com/api/tasks/visual/segmentation', imageContent, {
+    const response = await axios.post('/uploads/1700030491687.jpg', imageContent, {
         headers: {
             'Content-Type': 'image/jpeg',
             'X-API-KEY': API_KEY,
