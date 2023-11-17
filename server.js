@@ -7,7 +7,7 @@ const request = require('request');
 const fs = require('fs');
 
 
-// app.use(express.static("public"));
+app.use(express.static("public"));
 // app.use(logger);
 
 // expressで用意されているテンプレートエンジン
@@ -15,37 +15,33 @@ app.set("view engine", "ejs");
 
 app.get('/', async (req, res) => {
 
+    console.log('started root path')
 
-    // var request = require("request");
-    // var fs = require("fs");
 
-    // request({
-    //     method: "POST",
-    //     url: "https://techhk.aoscdn.com/api/tasks/visual/segmentation",
-    //     headers: {
-    //     "X-API-KEY": "wx9sjlg1796km3kfm"
-    //     },
-    //     formData: {
-    //     sync: "1",
-    //     image_file: fs.readFileSync("uploads/1700030491687.jpg"),
-    //     }
-    // }, function (error, response) {
-    //     if (error) throw new Error(error);
-    //     console.log(response.body);
-    // });
+    var request = require("request");
+    var fs = require("fs");
 
-    // try {
-    //     const apiResponse = await makeApiRequest();
+    var image_file = fs.createReadStream(path.join(__dirname, 'uploads/1700030491687.jpg'))
 
-    //     console.log(apiResponse);
+    console.log(image_file)
 
-    //     res.render('index', { text: 'こんにちは' });
-    // } catch (error) {
-    //     console.error(error);
-    //     res.status(500).send('Internal Server Error');
-    // }
+    request({
+        method: "POST",
+        url: "https://techhk.aoscdn.com/api/tasks/visual/segmentation",
+        headers: {
+        "X-API-KEY": "wx9sjlg1796km3kfm"
+        },
+        formData: {
+        sync: "1",
+        image_file: image_file,
+        }
+    }, function (error, response) {
+        console.log('function now')
+        if (error) throw new Error(error);
+        console.log(response.body);
+    });
 
-    
+
 
     res.render('index', { text: 'こんにちは' });
 
@@ -97,13 +93,14 @@ const path = require('path');
 // ファイル保存先の設定
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'uploads/'); // 保存先のディレクトリを指定
+        cb(null, 'uploads/'); // Specify the destination directory
     },
     filename: (req, file, cb) => {
-        const ext = path.extname(file.originalname);
-        cb(null, `${Date.now()}${ext}`); // ファイル名を一意にする
+        const fixedFileName = 'for-abe-hiroshi.jpg'; // Use a fixed file name
+        cb(null, fixedFileName);
     },
 });
+
 
 const upload = multer({ storage });
 
@@ -112,3 +109,6 @@ app.post('/upload', upload.single('image'), (req, res) => {
     // ファイルがアップロードされた後の処理
     res.send('File uploaded!');
 });
+
+
+
