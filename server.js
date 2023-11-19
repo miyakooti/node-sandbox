@@ -14,8 +14,8 @@ app.get('/', async (req, res) => {
 });
 
 
-app.get("/source/menu.html", (req, res) => {
-    res.sendFile(__dirname + "/views/source/menu.html");
+app.get("/menu.html", (req, res) => {
+    res.sendFile(__dirname + "/views/menu.html");
 });
 
 app.get("/top.html", (req, res) => {
@@ -45,6 +45,7 @@ app.post('/upload', upload.single('image'), (req, res) => {
     console.log('started uploading path')
 
     const textData = req.body.text;
+    //const rname = jaconv.toHebon(textData);
 
     var request = require("request");
     var fs = require("fs");
@@ -57,7 +58,7 @@ app.post('/upload', upload.single('image'), (req, res) => {
         method: "POST",
         url: "https://techhk.aoscdn.com/api/tasks/visual/segmentation",
         headers: {
-            "X-API-KEY": "wx9sjlg1796km3kfm"
+            "X-API-KEY": "wx8c97vvp69s0o9ge"
         },
         formData: {
             sync: "1",
@@ -73,11 +74,22 @@ app.post('/upload', upload.single('image'), (req, res) => {
 
         console.log(imageUrl);
 
-        // res.render('top', { imageUrl: imageUrl, name_jap: textData });
-        res.render('top', { name: textData, imageUrl: imageUrl });
+        const birth_year = Math.floor(Math.random() * ( 2000 - 1950 ) + 1950);
+        const birth_month = Math.floor(Math.random() * ( 12 - 1 ) + 1);
+        const birth_day = Math.floor(Math.random() * (28 - 1) + 1);
 
+        const pick = Math.floor(Math.random() * (3- 0) + 0);
+        var bloodtype = ['A', 'B', 'O', 'AB'];
+        const blood = bloodtype[pick];
+
+        // res.render('top', { imageUrl: imageUrl, name_jap: textData });
+        res.render('top', {name: textData, imageUrl: imageUrl, birthyear: birth_year, birthmonth:birth_month, birthday:birth_day, blood:blood});
     });
 
 });
+
+
+//GPT API-key: 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
+
 
 app.listen(3000, console.log("サーバーが起動しました"));
