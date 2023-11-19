@@ -6,6 +6,25 @@ const app = express();
 const request = require('request');
 const fs = require('fs');
 
+const OpenAI = require('openai');
+require('dotenv').config();
+const openai = new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY,
+   });
+
+app.get('/sample', async (req, res) => {
+    async function example() {
+        const openapi = new OpenAI({
+          apiKey: process.env.OPENAI_API_KEY,
+        })
+        const drama = await openai.sendMessage('阿部寛が出演した日本ドラマ2つ、名前だけください')
+        console.log(drama.text[0])
+    }
+    example()
+    res.render('index', { text: 'こんにちは' });
+});
+
+
 app.set("view engine", "ejs");
 
 
@@ -37,8 +56,17 @@ const storage = multer.diskStorage({
     },
 });
 
-
 const upload = multer({ storage });
+
+//
+async function example() {
+    const api = new ChatGPTAPI({
+      apiKey: process.env.OPENAI_API_KEY,
+    })
+    const drama = await api.sendMessage('阿部寛が出演した日本ドラマ2つ、名前だけください')
+    console.log(drama.text[0])
+}
+//
 
 app.post('/upload', upload.single('image'), (req, res) => {
 
@@ -46,7 +74,6 @@ app.post('/upload', upload.single('image'), (req, res) => {
 
     const textData = req.body.text;
     //const rname = jaconv.toHebon(textData);
-
     var request = require("request");
     var fs = require("fs");
 
@@ -64,7 +91,7 @@ app.post('/upload', upload.single('image'), (req, res) => {
             sync: "1",
             image_file: image_file,
         }
-    }, function (error, response) {
+    },function (error, response) {
         console.log('function now')
         if (error) throw new Error(error);
 
@@ -83,13 +110,42 @@ app.post('/upload', upload.single('image'), (req, res) => {
         const blood = bloodtype[pick];
 
         // res.render('top', { imageUrl: imageUrl, name_jap: textData });
-        res.render('top', {name: textData, imageUrl: imageUrl, birthyear: birth_year, birthmonth:birth_month, birthday:birth_day, blood:blood});
+        res.render('top', {
+            name: textData, 
+            imageUrl: imageUrl, 
+            birthyear: birth_year, 
+            birthmonth:birth_month, 
+            birthday:birth_day, 
+            blood:blood
+        });
     });
-
 });
 
+// app.post('/generate-text', async (req, res) => {
+//     try {
+//         const userInput = req.body.userInput;
 
+//         const response = await openai.Completion.create({
+//             engine: "text-davinci-003",
+//             prompt: userInput,
+//             max_tokens: 50
+//         });
+
+//         const generatedText = response.choices[0].text;
+//         res.json({ generatedText });
+//     } catch (error) {
+//         console.error(error);
+//         res.status(500).json({ error: 'Internal Server Error' });
+//     }
+// });
+
+
+//organization:org-mnzNGMVOjZntWnIXPKs97tQ5
 //GPT API-key: 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
+// const apiKey = process.env.OPENAI_API_KEY;
+// const gpt = new OpenAIAPI({ key: apiKey });
+
+//import OpenAI from "openai";
 
 
 app.listen(3000, console.log("サーバーが起動しました"));
