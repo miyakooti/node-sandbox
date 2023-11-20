@@ -86,11 +86,11 @@
               </tr>
               <tr>
                 <td>&nbsp;</td>
-                <td>生年月日 1964年6月22日<br></td>
+                <td>生年月日 <%= birthyear %>年 <%= birthmonth %>月 <%= birthday %>日<br></td>
               </tr>
               <tr>
                 <td>&nbsp;</td>
-                <td>血液型 A型<br></td>
+                <td>血液型 <%= blood %>型<br></td>
               </tr>
               <tr>
                 <td>&nbsp;</td>
@@ -105,16 +105,16 @@
                   If you have any enquiries regarding my TV drama or film, or would like to make an enquiry concerning
                   future projects, please do not hesitate to contact me through the following email address.<br>
                   <br>
-                  mail:<a href="mailto:shigeta@navy.plala.or.jp" target="_blank">shigeta@navy.plala.or.jp</a>
+                  mail:<a href="https://www.sophia.ac.jp/jpn/" target="_blank"><%= name %>@navy.plala.or.jp</a>
                 </td>
               </tr>
             </tbody>
           </table>
           <br>
           所属<strong>:</strong><br>
-          茂田オフィス<br>
-          107-0052<br>
-          東京都港区赤坂9-5-29 <br>
+          <%= name %>オフィス<br>
+          107-00<%= birthday %>><br>
+          東京都港区赤坂<%= birthmonth %>-<%= birthmonth %>-<%= birthday %> <br>
           赤坂ロイヤルマンション303<br>
 
           TEL : +81-3-5410-8585<br>

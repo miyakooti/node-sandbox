@@ -6,6 +6,26 @@ const app = express();
 const request = require('request');
 const fs = require('fs');
 
+const OpenAI = require('openai');
+require('dotenv').config();
+const openai = new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY,
+   });
+
+async function example() {
+        const openapi = new OpenAI({
+          apiKey: process.env.OPENAI_API_KEY,
+        })
+        const drama = await openai.sendMessage('阿部寛が出演した日本ドラマ2つ、名前だけください')
+        console.log(drama.text)
+    }
+   
+app.get('/sample', async (req, res) => {
+    example()
+    res.render('index', { text: 'こんにちは' });
+});
+
+
 app.set("view engine", "ejs");
 
 
@@ -14,8 +34,8 @@ app.get('/', async (req, res) => {
 });
 
 
-app.get("/source/menu.html", (req, res) => {
-    res.sendFile(__dirname + "/views/source/menu.html");
+app.get("/menu.html", (req, res) => {
+    res.sendFile(__dirname + "/views/menu.html");
 });
 
 app.get("/top.html", (req, res) => {
@@ -37,14 +57,25 @@ const storage = multer.diskStorage({
     },
 });
 
-
 const upload = multer({ storage });
+
+//
+// async function example() {
+//     const api = new ChatGPTAPI({
+//       apiKey: process.env.OPENAI_API_KEY,
+//     })
+//     const drama = await api.sendMessage('阿部寛が出演した日本ドラマ2つ、名前だけください')
+//     console.log(drama.text[0])
+// }
+// //
 
 app.post('/upload', upload.single('image'), (req, res) => {
 
     console.log('started uploading path')
 
     const textData = req.body.text;
+  
+    //const rname = jaconv.toHebon(textData);
     const engData = req.body.eng;
 
     var request = require("request");
@@ -58,13 +89,13 @@ app.post('/upload', upload.single('image'), (req, res) => {
         method: "POST",
         url: "https://techhk.aoscdn.com/api/tasks/visual/segmentation",
         headers: {
-            "X-API-KEY": "wxvanv6iggjfpy190"
+          "X-API-KEY": "wxvanv6iggjfpy190"
         },
         formData: {
             sync: "1",
             image_file: image_file,
         }
-    }, function (error, response) {
+    },function (error, response) {
         console.log('function now')
         if (error) throw new Error(error);
 
@@ -74,11 +105,55 @@ app.post('/upload', upload.single('image'), (req, res) => {
 
         console.log(imageUrl);
 
+        const birth_year = Math.floor(Math.random() * ( 2000 - 1950 ) + 1950);
+        const birth_month = Math.floor(Math.random() * ( 12 - 1 ) + 1);
+        const birth_day = Math.floor(Math.random() * (28 - 1) + 1);
+      
         // res.render('top', { imageUrl: imageUrl, name_jap: textData });
+      
+
+
+        const pick = Math.floor(Math.random() * (3- 0) + 0);
+        var bloodtype = ['A', 'B', 'O', 'AB'];
+        const blood = bloodtype[pick];
+
+        // res.render('top', { imageUrl: imageUrl, name_jap: textData });
+      
         res.render('top', { name: textData, imageUrl: imageUrl , engData: engData});
-
+      
+        // res.render('top', {
+        //    name: textData, 
+        //    imageUrl: imageUrl, 
+        //    birthyear: birth_year, 
+        //    birthmonth:birth_month, 
+        //    birthday:birth_day, 
+        //    blood:blood
+        //});
     });
-
 });
+
+// app.post('/generate-text', async (req, res) => {
+//     try {
+//         const userInput = req.body.userInput;
+
+//         const response = await openai.Completion.create({
+//             engine: "text-davinci-003",
+//             prompt: userInput,
+//             max_tokens: 50
+//         });
+
+//         const generatedText = response.choices[0].text;
+//         res.json({ generatedText });
+//     } catch (error) {
+//         console.error(error);
+//         res.status(500).json({ error: 'Internal Server Error' });
+//     }
+// });
+
+// const apiKey = process.env.OPENAI_API_KEY;
+// const gpt = new OpenAIAPI({ key: apiKey });
+
+//import OpenAI from "openai";
+
 
 app.listen(3000, console.log("サーバーが起動しました"));
