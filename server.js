@@ -45,6 +45,7 @@ app.post('/upload', upload.single('image'), (req, res) => {
     console.log('started uploading path')
 
     const textData = req.body.text;
+    const engData = req.body.eng;
 
     var request = require("request");
     var fs = require("fs");
@@ -57,7 +58,7 @@ app.post('/upload', upload.single('image'), (req, res) => {
         method: "POST",
         url: "https://techhk.aoscdn.com/api/tasks/visual/segmentation",
         headers: {
-            "X-API-KEY": "wx9sjlg1796km3kfm"
+            "X-API-KEY": "wxvanv6iggjfpy190"
         },
         formData: {
             sync: "1",
@@ -74,7 +75,7 @@ app.post('/upload', upload.single('image'), (req, res) => {
         console.log(imageUrl);
 
         // res.render('top', { imageUrl: imageUrl, name_jap: textData });
-        res.render('top', { name: textData, imageUrl: imageUrl });
+        res.render('top', { name: textData, imageUrl: imageUrl , engData: engData});
 
     });
 
