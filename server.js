@@ -12,14 +12,15 @@ const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
    });
 
-app.get('/sample', async (req, res) => {
-    async function example() {
+async function example() {
         const openapi = new OpenAI({
           apiKey: process.env.OPENAI_API_KEY,
         })
         const drama = await openai.sendMessage('阿部寛が出演した日本ドラマ2つ、名前だけください')
-        console.log(drama.text[0])
+        console.log(drama.text)
     }
+   
+app.get('/sample', async (req, res) => {
     example()
     res.render('index', { text: 'こんにちは' });
 });
@@ -59,14 +60,14 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 //
-async function example() {
-    const api = new ChatGPTAPI({
-      apiKey: process.env.OPENAI_API_KEY,
-    })
-    const drama = await api.sendMessage('阿部寛が出演した日本ドラマ2つ、名前だけください')
-    console.log(drama.text[0])
-}
-//
+// async function example() {
+//     const api = new ChatGPTAPI({
+//       apiKey: process.env.OPENAI_API_KEY,
+//     })
+//     const drama = await api.sendMessage('阿部寛が出演した日本ドラマ2つ、名前だけください')
+//     console.log(drama.text[0])
+// }
+// //
 
 app.post('/upload', upload.single('image'), (req, res) => {
 
@@ -139,9 +140,6 @@ app.post('/upload', upload.single('image'), (req, res) => {
 //     }
 // });
 
-
-//organization:org-mnzNGMVOjZntWnIXPKs97tQ5
-//GPT API-key: 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
 // const apiKey = process.env.OPENAI_API_KEY;
 // const gpt = new OpenAIAPI({ key: apiKey });
 

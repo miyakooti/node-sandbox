@@ -6,6 +6,7 @@ async function example() {
     apiKey: process.env.OPENAI_API_KEY,
   })
   const res = await api.sendMessage('阿部寛が出演した日本ドラマ2つ、名前だけください')
+  console.log('阿部寛が出演した日本ドラマ2つ、名前だけください')
   console.log(res.text)
 }
  
