@@ -15,15 +15,19 @@
 
 <body background="https://github.com/miyakooti/node-sandbox/blob/master/views/source/abehiroshi.jpg?raw=true"
   marginwidth="0" marginheight="0" data-new-gr-c-s-check-loaded="14.1135.0" data-gr-ext-installed="">
+
   <br>
   <h1 align="center">阿部 寛のホームページ</h1>
 
   <form action="/upload" method="post" enctype="multipart/form-data">
-    <label for="image">Choose an image:</label>
+    <label for="image">画像:</label>
     <input type="file" name="image" id="image" accept="image/*">
 
-    <label for="text">Enter some text:</label>
+    <label for="text">名前:</label>
     <input type="text" name="text" id="text">
+
+    <label for="eng">name:</label>
+    <input type="text" name="eng" id="eng">
 
     <button type="submit">Upload</button>
   </form>
@@ -215,6 +219,8 @@
     </tbody>
   </table>
 
+  
+
 </body><grammarly-desktop-integration data-grammarly-shadow-root="true"><template shadowrootmode="open">
     <style>
       div.grammarly-desktop-integration {
@@ -236,6 +242,7 @@
       div.grammarly-desktop-integration:before {
         content: attr(data-content);
       }
+
     </style>
     <div aria-label="grammarly-integration" role="group" tabindex="-1" class="grammarly-desktop-integration"
       data-content="{&quot;mode&quot;:&quot;full&quot;,&quot;isActive&quot;:true,&quot;isUserDisabled&quot;:false}">

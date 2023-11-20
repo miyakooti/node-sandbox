@@ -74,7 +74,10 @@ app.post('/upload', upload.single('image'), (req, res) => {
     console.log('started uploading path')
 
     const textData = req.body.text;
+  
     //const rname = jaconv.toHebon(textData);
+    const engData = req.body.eng;
+
     var request = require("request");
     var fs = require("fs");
 
@@ -86,7 +89,7 @@ app.post('/upload', upload.single('image'), (req, res) => {
         method: "POST",
         url: "https://techhk.aoscdn.com/api/tasks/visual/segmentation",
         headers: {
-            "X-API-KEY": "wx8c97vvp69s0o9ge"
+          "X-API-KEY": "wxvanv6iggjfpy190"
         },
         formData: {
             sync: "1",
@@ -105,20 +108,27 @@ app.post('/upload', upload.single('image'), (req, res) => {
         const birth_year = Math.floor(Math.random() * ( 2000 - 1950 ) + 1950);
         const birth_month = Math.floor(Math.random() * ( 12 - 1 ) + 1);
         const birth_day = Math.floor(Math.random() * (28 - 1) + 1);
+      
+        // res.render('top', { imageUrl: imageUrl, name_jap: textData });
+      
+
 
         const pick = Math.floor(Math.random() * (3- 0) + 0);
         var bloodtype = ['A', 'B', 'O', 'AB'];
         const blood = bloodtype[pick];
 
         // res.render('top', { imageUrl: imageUrl, name_jap: textData });
-        res.render('top', {
-            name: textData, 
-            imageUrl: imageUrl, 
-            birthyear: birth_year, 
-            birthmonth:birth_month, 
-            birthday:birth_day, 
-            blood:blood
-        });
+      
+        res.render('top', { name: textData, imageUrl: imageUrl , engData: engData});
+      
+        // res.render('top', {
+        //    name: textData, 
+        //    imageUrl: imageUrl, 
+        //    birthyear: birth_year, 
+        //    birthmonth:birth_month, 
+        //    birthday:birth_day, 
+        //    blood:blood
+        //});
     });
 });
 
